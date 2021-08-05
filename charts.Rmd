@@ -1,0 +1,840 @@
+---
+title: "Taking the next steps past standard charts"
+author: "Ijeamaka Anyene"
+institute: "Sr. Data Analyst, Kaiser Division of Research"
+date: "August 6th, 2021"
+output:
+  xaringan::moon_reader:
+    anchor_sections: FALSE
+    css:
+      - default
+      - my_css/theme.css
+    seal: FALSE
+    df_print: kable
+    lib_dir: libs
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+background-image: url("images/toronto_data_010.png")
+background-position: top
+background-size: cover
+background-color: var(--BlueGreen)
+class: left, middle
+
+
+```{r include = FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      fig.retina = 3, 
+                      fig.align = 'center')
+```
+
+```{r message = FALSE, warning = FALSE}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(kableExtra)
+library(ggimage)
+library(ragg)
+
+xaringanExtra::use_tachyons()
+```
+
+```{r include = FALSE}
+women_research = tribble(
+  ~country, ~years, ~ percentage,
+  "EU28", "1996-2000", 0.32,
+  "EU28", "2011-2015", 0.41,
+  "United States", "1996-2000", 0.31,
+  "United States", "2011-2015", 0.40,
+  "United Kingdom", "1996-2000", 0.31,
+  "United Kingdom", "2011-2015", 0.40,
+  "Canada", "1996-2000", 0.32,
+  "Canada", "2011-2015", 0.42,
+  "Australia", "1996-2000", 0.33,
+  "Australia", "2011-2015", 0.44,
+  "France", "1996-2000", 0.34,
+  "France", "2011-2015", 0.40,
+  "Japan", "1996-2000", 0.15,
+  "Japan", "2011-2015", 0.20,
+  "Portugal", "1996-2000", 0.41,
+  "Portugal", "2011-2015", 0.49) %>%
+  mutate(percentage = percentage * 100) %>%
+  pivot_wider(names_from = years, values_from = percentage)
+```
+
+.my-white[
+# Spice up your<br>standard charts
+**Ijeamaka Anyene**  
+**Toronto Data Workshop | August 6th, 2021**
+]
+
+
+---
+class: transition-slide, center, middle
+
+.my-green[
+## About Me
+]
+
+
+### `r emo::ji("waving_hand")` I'm Ijeamaka Anyene
+### `r emo::ji("woman_technologist")` Senior Data Analyst, <br> Kaiser NorCal Division of Research
+`r emo::ji("bird")` [@ijeamaka_a](https://twitter.com/ijeamaka_a)  
+`r emo::ji("spider_web")` [ijeamaka-anyene.netlify.app](https://ijeamaka-anyene.netlify.app/)  
+
+
+---
+class: transition-slide
+
+```{r out.width = "50%"}
+knitr::include_graphics(here::here("images", "steal_like_artist.jpeg"))
+```
+
+---
+class: transition-slide
+
+```{r out.width = "80%"}
+knitr::include_graphics(here::here("images", "IMG_4119.jpg"))
+```
+
+
+---
+class: transition-slide
+
+```{r out.width = "80%"}
+knitr::include_graphics(here::here("images", "IMG_4119_modified.jpg"))
+```
+
+---
+class: inverse, center, middle
+
+## When starting a visualization,<br>I ask myself
+<hr>
+--
+
+### What is my message?
+--
+
+### Who is my audience?
+--
+
+### How much time do I have? 
+
+---
+class: middle
+
+```{r, include=FALSE}
+fake_data = tibble(
+  x = c(2, 8),
+  y = 4,
+  images = c(here::here("images", "noun_photographer.png"),
+             here::here("images", "noun_scientist.png"))
+)
+
+```
+
+```{r, fig.width=11}
+ggplot(data = fake_data) +
+  geom_image(aes(x = x, y = y, image = images),
+             size = .25,
+             asp = 1.6) +
+  geom_text(aes(x = 2, y = 3,
+                label = "Me,\na data analyst"),
+            size = 7,
+            lineheight = 1) +
+  geom_text(aes(x = 8, y = 3,
+                label = "Data visualization expert"),
+            size = 7) +
+  geom_segment(aes(x = 0, xend = 10,
+                   y = 2, yend = 2),
+               arrow = arrow(length = unit(0.5, "cm")),
+               size = 2) +
+  geom_text(aes(x = 5, y = 1.5, 
+                label = "Time available in work day to perfect data visualization"),
+            size = 9,
+            fontface = "bold",
+            lineheight = 1) +
+  xlim(0, 10) +
+  ylim(0, 5) +
+  #coord_equal() +
+  theme_void() +
+  theme(
+    text = element_text(family = "Open Sans")
+  )
+  
+```
+
+---
+```{r out.width = "80%"}
+knitr::include_graphics(here::here("images", "ceci_nest_pas_pipe.png"))
+```
+
+
+---
+```{r out.width = "80%"}
+knitr::include_graphics(here::here("images", "ceci_nest_pas_dataviz.jpg"))
+```
+
+---
+
+
+ADD GRAPHIC WITH COVER ART - cross out taking the next steps and change to "Spicing up" 
+
+
+---
+class: center, middle, inverse
+
+# Ijeamaka's Data Viz Maxims
+```{r, out.width = "50%"}
+knitr::include_graphics(here::here("images", "baby_yoda_soup.jpeg"))
+```
+
+
+
+---
+class: transition-slide
+## .my-green[Time Available in Workday:] .my-yellow["Deadline is tomorrow"]
+<br>
+.pull-left[
+.center[
+### Advice
+<hr>
+**Start simple then build up**<br>  
+**More aesthetics = more complexity**<br>  
+**Reduce redundancy, add clarity**<br>
+]
+]
+
+--
+
+.pull-right[
+.center[
+### Implement
+<hr>
+**Standard charts or go-to charts**<br>  
+**Non-default colors**<br>  
+**Modify legend and axis**<br>  
+**Titles, subtitles, and caption**<br>
+]
+]
+
+---
+class: transition-slide
+## .my-green[Time Available in Workday:] .my-yellow["A moderate amount"]
+<br>
+.pull-left[
+.center[
+### Advice
+<hr>
+**Emphasize**<br>  
+**Less defaults, more customization**<br>  
+]
+]
+
+--
+
+.pull-right[
+.center[
+### Implement
+<hr>
+**Highlights**<br>  
+**Annotations**<br>  
+**Atypical legends, labels, etc.**<br> 
+]
+]
+
+---
+class: transition-slide, middle
+
+```{r out.width = "50%"}
+knitr::include_graphics(here::here("images", "erindataviz_screenshot.png"))
+```
+
+---
+class: transition-slide
+## .my-green[Time Available in Workday:] .my-yellow["Wow look at all of my free time"]
+
+.pull-left[
+.center[
+### Advice
+<hr>
+**Go wild**<br>  
+**Have a back up plan**<br>  
+]
+]
+
+--
+
+.pull-right[
+.center[
+### Implement
+<hr>
+**Nonstandard charts or data art**<br>  
+**Custom legends**<br>  
+**Multiple annotations**<br>  
+**Create a table or standard chart as back up**<br>
+]
+]
+
+---
+class: transition-slide 
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-yellow[
+#### Standard charts or go-to charts
+]
+.my-steelgrey[
+#### Non-default colors
+#### Modify legend and axis
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r}
+women_research %>% 
+  mutate(change = glue::glue("+{`2011-2015` - `1996-2000`}")) %>%
+  arrange(`1996-2000`) %>%
+  rename(Country = country,
+         Change = change) %>%
+  kable(align = "lrrc", 
+        caption = "Change in Published Women Researchers") %>%
+  #kable_classic_2(full_width = F) %>%
+  add_header_above(c(" " = 1, 
+                     "% Published of Total" = 2, 
+                     " " = 1))
+```
+]
+
+---
+class: transition-slide
+
+```{r, include = FALSE}
+women_research_sorted = women_research %>%
+  mutate(country = forcats::fct_reorder(country, -`1996-2000`))
+```
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-yellow[
+#### Standard charts or go-to charts
+]
+.my-steelgrey[
+#### Non-default colors
+#### Modify legend and axis
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`)) +
+  geom_point(aes(y = country, x = `1996-2000`,
+                 color = "1996-2000")) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 0.005)) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black")
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+]
+.my-yellow[
+#### Non-default colors
+]
+.my-steelgrey[
+#### Modify legend and axis
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+               size = 2,
+               color = "#b6b8c1") +
+  geom_point(aes(y = country, x = `1996-2000`, 
+                 color = "1996-2000"),
+             shape = 21,
+             fill = "white",
+             size = 4) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015"),
+             shape = 21,
+             fill = "white",
+             size = 4) +
+  scale_color_manual(values = c("#005b87", "#a52a1c")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 0.005)) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black")
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+#### Non-default colors
+]
+.my-yellow[
+#### Modify legend and axis
+]
+.my-steelgrey[
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+              size = 2,
+               color = "#b6b8c1") +
+  geom_point(aes(y = country, x = `1996-2000`, 
+                 color = "1996-2000"),
+             shape = 21,
+             fill = "white",
+             size = 4) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015"),
+             shape = 21,
+             fill = "white",
+             size = 4) +
+  labs(color = NULL, y = NULL, x = NULL) +
+  scale_color_manual(values = c("#005b87", "#a52a1c")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 2), 
+                     labels = function(x) paste0(x, "%")) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_text(size = 15),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black"),
+    legend.position = "top",
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15),
+    legend.justification = 0,
+    legend.margin = margin(1, 1, 1, 1)
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+#### Non-default colors
+#### Modify legend and axis
+]
+.my-yellow[
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+              size = 2,
+               color = "#b6b8c1") +
+  geom_point(aes(y = country, x = `1996-2000`, 
+                 color = "1996-2000"),
+             shape = 21,
+             fill = "white",
+             size = 4) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015"),
+             shape = 21,
+             fill = "white",
+             size = 4) +
+  labs(color = NULL, y = NULL, x = NULL,
+       title = "Most countries researched have reached 40 - 60% female publication gender parity goal",
+       subtitle = "Percentage of women among total published researchers",
+       caption = "Gender in the Global Research Landscape by Elsevier") +
+  scale_color_manual(values = c("#005b87", "#a52a1c")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 2), 
+                     labels = function(x) paste0(x, "%")) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.text = element_text(size = 15),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black"),
+    legend.position = "top",
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15),
+    legend.justification = 0,
+    legend.margin = margin(1, 1, 1, 1)
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+#### Non-default colors
+#### Modify legend and axis
+]
+.my-yellow[
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+              size = 2,
+               color = "#b6b8c1") +
+  geom_point(aes(y = country, x = `1996-2000`, 
+                 color = "1996-2000"),
+             shape = 21,
+             fill = "white",
+             size = 4) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015"),
+             shape = 21,
+             fill = "white",
+             size = 4) +
+  labs(color = NULL, y = NULL, x = NULL,
+       title = "Most countries researched have reached 40 - 60% \nfemale publication gender parity goal",
+       subtitle = "Percentage of women among total published researchers",
+       caption = "Gender in the Global Research Landscape by Elsevier") +
+  scale_color_manual(values = c("#005b87", "#a52a1c")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 2), 
+                     labels = function(x) paste0(x, "%")) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10)),
+    axis.text = element_text(size = 15),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black"),
+    legend.position = "top",
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15),
+    legend.justification = 0,
+    legend.margin = margin(2, 1, 50, 1)
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Moderate Amount
+]
+.my-yellow[
+#### Highlights
+]
+.my-steelgrey[
+#### Annotations
+#### Atypical legends, labels, etc.
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  # gender parity lines
+  geom_vline(xintercept = 40,
+             linetype = "dashed") +
+  geom_vline(xintercept = 60,
+             linetype = "dashed") +
+  # trick to make sure axis work
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+               size = 0) +
+  geom_rect(aes(xmin = 40, xmax = 60,
+                ymin = 0, ymax = Inf),
+            fill = "#dddddd",
+            color = NA,
+            alpha = 0.5) +
+ geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+              size = 2,
+               color = "#b6b8c1") +
+  geom_point(aes(y = country, x = `1996-2000`, 
+                 color = "1996-2000"),
+             shape = 21,
+             fill = "white",
+             size = 4) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015"),
+             shape = 21,
+             fill = "white",
+             size = 4) +
+  labs(color = NULL, y = NULL, x = NULL,
+       title = "Most countries researched have reached 40 - 60% \nfemale publication gender parity goal",
+       subtitle = "Percentage of women among total published researchers",
+       caption = "Gender in the Global Research Landscape by Elsevier") +
+  scale_color_manual(values = c("#005b87", "#a52a1c")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 2), 
+                     labels = function(x) paste0(x, "%")) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10)),
+    axis.text = element_text(size = 15),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black"),
+    legend.position = "top",
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15),
+    legend.justification = 0,
+    legend.margin = margin(2, 1, 50, 1)
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Moderate Amount
+]
+.my-steelgrey[
+#### Highlights
+]
+.my-yellow[
+#### Annotations
+]
+.my-steelgrey[
+#### Atypical legends, labels, etc.
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  # gender parity lines
+  geom_vline(xintercept = 40,
+             linetype = "dashed") +
+  geom_vline(xintercept = 60,
+             linetype = "dashed") +
+  # trick to make sure axis work
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+               size = 0) +
+  geom_rect(aes(xmin = 40, xmax = 60,
+                ymin = 0, ymax = Inf),
+            fill = "#dddddd",
+            color = NA,
+            alpha = 0.5) +
+  # data
+ geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+              size = 2,
+               color = "#b6b8c1") +
+  geom_point(aes(y = country, x = `1996-2000`, 
+                 color = "1996-2000"),
+             shape = 21,
+             fill = "white",
+             size = 4) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015"),
+             shape = 21,
+             fill = "white",
+             size = 4) +
+  # Labels
+  geom_text(aes(x = 50, y = 8,
+                label = "Gender balance occurs \nwhen women make up \n40 - 60% of any group"),
+            size = 4) +
+  labs(color = NULL, y = NULL, x = NULL,
+       title = "Major improvements experienced in gender publication parity",
+       subtitle = "Percentage of women among total published researchers",
+       caption = "Gender in the Global Research Landscape by Elsevier") +
+  scale_color_manual(values = c("#005b87", "#a52a1c")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 2), 
+                     labels = function(x) paste0(x, "%")) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10)),
+    axis.text = element_text(size = 15),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_line(color = "black"),
+    legend.position = "top",
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15),
+    legend.justification = 0,
+    legend.margin = margin(2, 1, 50, 1)
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Moderate Amount
+]
+.my-steelgrey[
+#### Highlights
+#### Annotations
+]
+.my-yellow[
+#### Atypical legends, labels, etc.
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = women_research_sorted) +
+  # gender parity lines
+  geom_vline(xintercept = 40,
+             linetype = "dashed") +
+  geom_vline(xintercept = 60,
+             linetype = "dashed") +
+  # trick to make sure axis work
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+               size = 0) +
+  geom_rect(aes(xmin = 40, xmax = 60,
+                ymin = 0, ymax = Inf),
+            fill = "#dddddd",
+            color = NA,
+            alpha = 0.5) +
+  geom_segment(aes(y = country, yend = country, 
+                    x = `1996-2000`, xend = `2011-2015`),
+              size = 2,
+               color = "#b6b8c1") +
+  geom_point(aes(y = country, x = `1996-2000`, 
+                 color = "1996-2000"),
+             shape = 21,
+             fill = "white",
+             size = 4) + 
+  geom_point(aes(y = country, x = `2011-2015`,
+                 color = "2011-2015"),
+             shape = 21,
+             fill = "white",
+             size = 4) +
+  # Labels
+  geom_text(aes(x = 50, y = 8,
+                label = "Gender balance occurs \nwhen women make up \n40 - 60% of any group"),
+            size = 4) +
+  geom_text(aes(x = `1996-2000` - 2, 
+                y = country, 
+                label = country),
+            hjust = 1,
+            size = 5) +
+  labs(color = NULL, y = NULL, x = NULL,
+       title = "Major improvements experienced in gender publication parity",
+       subtitle = "Percentage of women among total published researchers",
+       caption = "Gender in the Global Research Landscape by Elsevier") +
+  scale_color_manual(values = c("#005b87", "#a52a1c")) +
+  scale_x_continuous(limits = c(0, 100),
+                     expand = c(0.005, 2), 
+                     labels = function(x) paste0(x, "%")) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.background = element_blank(),
+    panel.grid = element_blank(),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10)),
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.text = element_text(size = 15),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_blank(),
+    legend.position = "top",
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15),
+    legend.justification = 0,
+    legend.margin = margin(2, 1, 50, 1)
+  )
+```
+]
+
+---
+
+background-image: url("images/toronto_data_05.png")
+background-position: top
+background-size: cover
+background-color: var(--BlueGreen)
+class: left, middle
+
+
+.my-white[
+# Thank you <br>for attending!
+**github.com/Ijeamakaanyene/spice_up_ya_dataviz**  
+**@ijeamaka_a**
+]

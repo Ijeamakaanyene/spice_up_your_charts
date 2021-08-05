@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.remark-code, .remark-inline-code {
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Color Variables */ 
+:root {
+--Yellow: #fbbc54;
+--Green: #033e3e;
+--RaisinBlack: #252323;
+--BlueGreen: #3c565b;
+--SteelGrey: #1e2b2d;
+--LightSage: #ebeeee;
+--Pink: #e2d1d1;
+--White: #ffffff;
+}
+
+/* Font Color */
+.my-pink{color: var(--Pink);}
+.my-white{color: var(--White);}
+.my-black{color: var(--RaisinBlack);}
+.my-green{color: var(--Green);}
+.my-yellow{color: var(--Yellow);}
+.my-bluegreen{color: var(--BlueGreen);}
+.my-steelgrey{color: var(--SteelGrey);}
+.my-lightgreen{color: var(--LightSage);}
+
+
+
+/* Normal Slides */
+.title-slide {
+  /*background-color: var(--BlueGreen);*/
+  background-image: url("images/toronto_data_01.png");
+  background-position: top;
+  background-size: contain;
+}
+
+.transition-slide {
+  color: var(--my-white);
+}
+
+.transition-slide a, .transition-slide a > code {
+  color: var(--my-black);
+}
+
+.inverse {
+  background-color: var(--BlueGreen);
+  color: var(my-white);
+}
+
+.inverse a, .inverse a > code {
+  color: var(--my-black);
+}
+
+/* Gradient Slides */
+.transition-gradient-green{
+  background: linear-gradient(90deg, #3c565b 50%, #FFFFFF 50%);
+}
+
+.transition-gradient-l-green{
+  background: linear-gradient(90deg, #ebeeee 50%, #FFFFFF 50%);
+}
+
+
+/* Hiding Slide Number */
+.remark-slide-number { 
+  display: none; 
+}
+
+/* Experimental */
+.footer-labels {
+    background: var(--my-lightgreen);
+    width: 40%;
+    color: black;
+    position: absolute;
+    padding: .75em;
+    bottom: 2em;
+    right: .75em;
+    font-size: 90%;
+    line-height: 1.3em;
+}
+
