@@ -179,9 +179,18 @@ knitr::include_graphics(here::here("images", "ceci_nest_pas_dataviz.jpg"))
 ```
 
 ---
+background-image: url("images/toronto_data_010.png")
+background-position: top
+background-size: cover
+background-color: var(--BlueGreen)
+class: left, middle
 
+.my-white[
+# Tips to spice<br>up your standard<br>charts within<br>specific time<br>constraints
+**Ijeamaka Anyene**  
+**Toronto Data Workshop | August 6th, 2021**
+]
 
-ADD GRAPHIC WITH COVER ART - cross out taking the next steps and change to "Spicing up" 
 
 
 ---
@@ -826,7 +835,7 @@ ggplot(data = women_research_sorted) +
 
 ---
 
-background-image: url("images/toronto_data_05.png")
+background-image: url("images/toronto_data_09.png")
 background-position: top
 background-size: cover
 background-color: var(--BlueGreen)
@@ -835,6 +844,6 @@ class: left, middle
 
 .my-white[
 # Thank you <br>for attending!
-**github.com/Ijeamakaanyene/spice_up_ya_dataviz**  
-**@ijeamaka_a**
+**Twitter: @ijeamaka_a**  
+**Github: ijeamakaanyene/spice_up_your_charts**
 ]

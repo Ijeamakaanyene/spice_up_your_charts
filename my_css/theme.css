@@ -13,6 +13,7 @@ h1, h2, h3 {
   font-family: 'Roboto Mono', monospace;
 }
 
+
 /* Color Variables */ 
 :root {
 --Yellow: #fbbc54;
@@ -36,8 +37,17 @@ h1, h2, h3 {
 .my-lightgreen{color: var(--LightSage);}
 
 
+/* Horizontal Bar */
+hr {
+  content: '';
+  display: block;
+  border: none;
+  background-color: var(--RaisinBlack);
+  height: 0.08em;
+  color: var(--LightSage);
+}
 
-/* Normal Slides */
+/* Slides */
 .title-slide {
   /*background-color: var(--BlueGreen);*/
   background-image: url("images/toronto_data_01.png");
@@ -53,6 +63,10 @@ h1, h2, h3 {
   color: var(--my-black);
 }
 
+.transition-slide hr {
+  background-color: var(--RaisinBlack);
+}
+
 .inverse {
   background-color: var(--BlueGreen);
   color: var(my-white);
@@ -62,13 +76,8 @@ h1, h2, h3 {
   color: var(--my-black);
 }
 
-/* Gradient Slides */
-.transition-gradient-green{
-  background: linear-gradient(90deg, #3c565b 50%, #FFFFFF 50%);
-}
-
-.transition-gradient-l-green{
-  background: linear-gradient(90deg, #ebeeee 50%, #FFFFFF 50%);
+.inverse hr {
+  background-color: var(--LightSage);
 }
 
 
@@ -77,16 +86,4 @@ h1, h2, h3 {
   display: none; 
 }
 
-/* Experimental */
-.footer-labels {
-    background: var(--my-lightgreen);
-    width: 40%;
-    color: black;
-    position: absolute;
-    padding: .75em;
-    bottom: 2em;
-    right: .75em;
-    font-size: 90%;
-    line-height: 1.3em;
-}
 
