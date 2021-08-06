@@ -104,14 +104,14 @@ class: transition-slide, center, middle
 class: transition-slide
 
 ```{r out.width = "50%"}
-knitr::include_graphics(here::here("images", "steal_like_artist.jpeg"))
+knitr::include_graphics("images/steal_like_artist.jpeg")
 ```
 
 ---
 class: transition-slide
 
 ```{r out.width = "80%"}
-knitr::include_graphics(here::here("images", "twitter_screenshot.png"))
+knitr::include_graphics("images/twitter_screenshot.png")
 ```
 
 ---
@@ -175,13 +175,13 @@ ggplot(data = fake_data) +
 
 ---
 ```{r out.width = "80%"}
-knitr::include_graphics(here::here("images", "ceci_nest_pas_pipe.png"))
+knitr::include_graphics("images/ceci_nest_pas_pipe.png")
 ```
 
 
 ---
 ```{r out.width = "80%"}
-knitr::include_graphics(here::here("images", "ceci_nest_pas_dataviz.jpg"))
+knitr::include_graphics("images/ceci_nest_pas_dataviz.jpg")
 ```
 
 ---
@@ -205,7 +205,7 @@ class: center, inverse
 .pull-left[
 ## Ijeamaka's Time-Specific Data Viz Maxims
 ```{r, out.width = "50%"}
-knitr::include_graphics(here::here("images", "baby_yoda_soup.jpeg"))
+knitr::include_graphics("images/baby_yoda_soup.jpeg")
 ```
 ]
 
@@ -1011,7 +1011,7 @@ ggplot(data = student_debt) +
 class: transition-slide
 
 ```{r out.width = "50%"}
-knitr::include_graphics(here::here("images", "salt_bae_meme.jpeg"))
+knitr::include_graphics("images/salt_bae_meme.jpeg")
 ```
 
 ---
