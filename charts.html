@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Taking the next steps past standard charts</title>
+    <title>Spice up your standard charts</title>
     <meta charset="utf-8" />
     <meta name="author" content="Ijeamaka Anyene" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
@@ -52,6 +52,7 @@ class: left, middle
 
 
 
+
 .my-white[
 # Spice up your&lt;br&gt;standard charts
 **Ijeamaka Anyene**  
@@ -81,18 +82,12 @@ class: transition-slide
 ---
 class: transition-slide
 
-&lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/IMG_4119.jpg" width="80%" style="display: block; margin: auto;" /&gt;
-
-
----
-class: transition-slide
-
-&lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/IMG_4119_modified.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/twitter_screenshot.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: inverse, center, middle
 
-## When starting a visualization,&lt;br&gt;I ask myself
+## When starting a visualization,&lt;br&gt;you need to ask yourself:
 &lt;hr&gt;
 --
 
@@ -101,15 +96,15 @@ class: inverse, center, middle
 
 ### Who is my audience?
 --
-
+.yellow[
 ### How much time do I have? 
-
+]
 ---
 class: middle
 
 
 
-&lt;img src="charts_files/figure-html/unnamed-chunk-8-1.png" width="792" style="display: block; margin: auto;" /&gt;
+&lt;img src="charts_files/figure-html/unnamed-chunk-7-1.png" width="792" style="display: block; margin: auto;" /&gt;
 
 ---
 &lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/ceci_nest_pas_pipe.png" width="80%" style="display: block; margin: auto;" /&gt;
@@ -134,12 +129,21 @@ class: left, middle
 
 
 ---
-class: center, middle, inverse
+class: center, inverse
 
-# Ijeamaka's Data Viz Maxims
+.pull-left[
+## Ijeamaka's Time-Specific Data Viz Maxims
 &lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/baby_yoda_soup.jpeg" width="50%" style="display: block; margin: auto;" /&gt;
+]
 
+--
 
+.pull-right[
+&lt;br&gt;
+### Deadline is tomorrow
+### Moderate amount of time
+### An abundance of time
+]
 
 ---
 class: transition-slide
@@ -162,7 +166,7 @@ class: transition-slide
 ### Implement
 &lt;hr&gt;
 **Standard charts or go-to charts**&lt;br&gt;  
-**Non-default colors**&lt;br&gt;  
+**Non-default aesthetics (colors, text, etc)**&lt;br&gt;  
 **Modify legend and axis**&lt;br&gt;  
 **Titles, subtitles, and caption**&lt;br&gt;
 ]
@@ -194,9 +198,12 @@ class: transition-slide
 ]
 
 ---
-class: transition-slide, middle
-
-&lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/erindataviz_screenshot.png" width="50%" style="display: block; margin: auto;" /&gt;
+background-image: url("images/erindataviz_screenshot.png")
+background-position: middle
+background-size: contain
+class: transition-slide, middle, center
+--
+### "Reduce redundancy, add clarity!"
 
 ---
 class: transition-slide
@@ -223,88 +230,113 @@ class: transition-slide
 **Create a table or standard chart as back up**&lt;br&gt;
 ]
 ]
+---
+class: inverse, middle, center
+
+## Let's implement!
+--
+
+### But first....
 
 ---
-class: transition-slide 
+class: inverse, middle, center
 
-.left-column[
-.my-bluegreen[
-### Deadline is tomorrow
-]
-.my-yellow[
-#### Standard charts or go-to charts
-]
-.my-steelgrey[
-#### Non-default colors
-#### Modify legend and axis
-#### Titles, subtitles, and caption
-]
+## Let's talk about tables
+&lt;hr&gt;
+--
+
+### Tables are underrated
+--
+
+### Great way to show the individual values
+--
+
+### Easy to make, if data is already wrangled
+
+---
+class: transition-slide
+
+.pull-left[
+&lt;br&gt;
+### TidyTuesday Dataset: Urban Institute and U.S. Census
 ]
 
-.right-column[
-&lt;table&gt;
-&lt;caption&gt;Change in Published Women Researchers&lt;/caption&gt;
+.pull-right[
+&lt;br&gt;&lt;br&gt;
+&lt;table class=" lightable-classic-2" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; margin-left: auto; margin-right: auto;'&gt;
+&lt;caption&gt;Racial Disparities in Avg. Family Student Loan Debt&lt;/caption&gt;
  &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
-&lt;th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;% Published of Total&lt;/div&gt;&lt;/th&gt;
-&lt;th style="empty-cells: hide;border-bottom:hidden;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="empty-cells: hide;" colspan="1"&gt;&lt;/th&gt;
+&lt;th style="padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="3"&gt;&lt;div style="border-bottom: 1px solid #111111; margin-bottom: -1px; "&gt;% of families with debt&lt;/div&gt;&lt;/th&gt;
 &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Country &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; 1996-2000 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; 2011-2015 &lt;/th&gt;
-   &lt;th style="text-align:center;"&gt; Change &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; White &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Black &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Hispanic &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Japan &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 15 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 20 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1989 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.7 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; United States &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 31 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.1 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; United Kingdom &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 31 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1995 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.6 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; EU28 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 41 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Canada &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 32 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 42 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +10 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.4 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Australia &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 33 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 44 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.4 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; France &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 34 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 40 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2007 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Portugal &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 41 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 49 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; +8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2013 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.9 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -323,7 +355,51 @@ class: transition-slide
 #### Standard charts or go-to charts
 ]
 .my-steelgrey[
-#### Non-default colors
+#### Non-default aesthetics (colors, text, etc)
+#### Modify legend and axis
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+&lt;img src="charts_files/figure-html/unnamed-chunk-13-1.png" width="792" style="display: block; margin: auto;" /&gt;
+]
+
+---
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+]
+.my-yellow[
+#### Non-default aesthetics (colors, text, etc)
+]
+.my-steelgrey[
+#### Modify legend and axis
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+&lt;img src="charts_files/figure-html/unnamed-chunk-14-1.png" width="792" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+]
+.my-yellow[
+#### Non-default aesthetics (colors, text, etc)
+]
+.my-steelgrey[
 #### Modify legend and axis
 #### Titles, subtitles, and caption
 ]
@@ -342,12 +418,12 @@ class: transition-slide
 ]
 .my-steelgrey[
 #### Standard charts or go-to charts
+#### Non-default aesthetics (colors, text, etc)
 ]
 .my-yellow[
-#### Non-default colors
+#### Modify legend and axis
 ]
 .my-steelgrey[
-#### Modify legend and axis
 #### Titles, subtitles, and caption
 ]
 ]
@@ -365,12 +441,10 @@ class: transition-slide
 ]
 .my-steelgrey[
 #### Standard charts or go-to charts
-#### Non-default colors
-]
-.my-yellow[
+#### Non-default aesthetics (colors, text, etc)
 #### Modify legend and axis
 ]
-.my-steelgrey[
+.my-yellow[
 #### Titles, subtitles, and caption
 ]
 ]
@@ -382,42 +456,14 @@ class: transition-slide
 ---
 class: transition-slide
 
-.left-column[
-.my-bluegreen[
-### Deadline is tomorrow
-]
-.my-steelgrey[
-#### Standard charts or go-to charts
-#### Non-default colors
-#### Modify legend and axis
-]
-.my-yellow[
-#### Titles, subtitles, and caption
-]
-]
+.pull-left[
+### Baseline
 
-.right-column[
 &lt;img src="charts_files/figure-html/unnamed-chunk-18-1.png" width="792" style="display: block; margin: auto;" /&gt;
 ]
 
----
-class: transition-slide
-
-.left-column[
-.my-bluegreen[
+.pull-right[
 ### Deadline is tomorrow
-]
-.my-steelgrey[
-#### Standard charts or go-to charts
-#### Non-default colors
-#### Modify legend and axis
-]
-.my-yellow[
-#### Titles, subtitles, and caption
-]
-]
-
-.right-column[
 &lt;img src="charts_files/figure-html/unnamed-chunk-19-1.png" width="792" style="display: block; margin: auto;" /&gt;
 ]
 
@@ -483,41 +529,19 @@ class: transition-slide
 &lt;img src="charts_files/figure-html/unnamed-chunk-22-1.png" width="792" style="display: block; margin: auto;" /&gt;
 ]
 
----
-class: transition-slide
-
-.left-column[
-.my-bluegreen[
-### Tons of free time
-]
-
-.my-yellow[
-#### Nonstandard charts
-#### Custom legends
-#### Multiple annotations
-#### Create standard chart as backup
-]
-]
-
-&lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/artsy_fartsy_plot3.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 class: transition-slide
 
-.left-column[
-.my-bluegreen[
-### Tons of free time
+.pull-left[
+### Deadline is tomorrow
+&lt;img src="charts_files/figure-html/unnamed-chunk-23-1.png" width="792" style="display: block; margin: auto;" /&gt;
 ]
 
-.my-yellow[
-#### Nonstandard charts
-#### Custom legends
-#### Multiple annotations
-#### Create standard chart as backup
+.pull-right[
+### Moderate amount
+&lt;img src="charts_files/figure-html/unnamed-chunk-24-1.png" width="792" style="display: block; margin: auto;" /&gt;
 ]
-]
-
-&lt;img src="/Users/ijeamakaanyene/repos/spice_up_your_charts/images/artsy_fartsy_plot2.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
 

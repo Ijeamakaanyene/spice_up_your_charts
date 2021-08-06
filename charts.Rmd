@@ -1,5 +1,5 @@
 ---
-title: "Taking the next steps past standard charts"
+title: "Spice up your standard charts"
 author: "Ijeamaka Anyene"
 institute: "Sr. Data Analyst, Kaiser Division of Research"
 date: "August 6th, 2021"
@@ -70,27 +70,13 @@ library(ragg)
 xaringanExtra::use_tachyons()
 ```
 
-```{r include = FALSE}
-women_research = tribble(
-  ~country, ~years, ~ percentage,
-  "EU28", "1996-2000", 0.32,
-  "EU28", "2011-2015", 0.41,
-  "United States", "1996-2000", 0.31,
-  "United States", "2011-2015", 0.40,
-  "United Kingdom", "1996-2000", 0.31,
-  "United Kingdom", "2011-2015", 0.40,
-  "Canada", "1996-2000", 0.32,
-  "Canada", "2011-2015", 0.42,
-  "Australia", "1996-2000", 0.33,
-  "Australia", "2011-2015", 0.44,
-  "France", "1996-2000", 0.34,
-  "France", "2011-2015", 0.40,
-  "Japan", "1996-2000", 0.15,
-  "Japan", "2011-2015", 0.20,
-  "Portugal", "1996-2000", 0.41,
-  "Portugal", "2011-2015", 0.49) %>%
-  mutate(percentage = percentage * 100) %>%
-  pivot_wider(names_from = years, values_from = percentage)
+
+```{r include = FALSE, message = FALSE}
+student_debt = readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/student_debt.csv') %>%
+  #filter(race %in% c("White", "Black")) %>%
+  select(-loan_debt) %>%
+  mutate(loan_debt_pct = round(loan_debt_pct * 100, 1)) 
+
 ```
 
 .my-white[
@@ -125,21 +111,13 @@ knitr::include_graphics(here::here("images", "steal_like_artist.jpeg"))
 class: transition-slide
 
 ```{r out.width = "80%"}
-knitr::include_graphics(here::here("images", "IMG_4119.jpg"))
-```
-
-
----
-class: transition-slide
-
-```{r out.width = "80%"}
-knitr::include_graphics(here::here("images", "IMG_4119_modified.jpg"))
+knitr::include_graphics(here::here("images", "twitter_screenshot.png"))
 ```
 
 ---
 class: inverse, center, middle
 
-## When starting a visualization,<br>I ask myself
+## When starting a visualization,<br>you need to ask yourself:
 <hr>
 --
 
@@ -148,9 +126,9 @@ class: inverse, center, middle
 
 ### Who is my audience?
 --
-
+.yellow[
 ### How much time do I have? 
-
+]
 ---
 class: middle
 
@@ -222,14 +200,23 @@ class: left, middle
 
 
 ---
-class: center, middle, inverse
+class: center, inverse
 
-# Ijeamaka's Data Viz Maxims
+.pull-left[
+## Ijeamaka's Time-Specific Data Viz Maxims
 ```{r, out.width = "50%"}
 knitr::include_graphics(here::here("images", "baby_yoda_soup.jpeg"))
 ```
+]
 
+--
 
+.pull-right[
+<br>
+### Deadline is tomorrow
+### Moderate amount of time
+### An abundance of time
+]
 
 ---
 class: transition-slide
@@ -252,7 +239,7 @@ class: transition-slide
 ### Implement
 <hr>
 **Standard charts or go-to charts**<br>  
-**Non-default colors**<br>  
+**Non-default aesthetics (colors, text, etc)**<br>  
 **Modify legend and axis**<br>  
 **Titles, subtitles, and caption**<br>
 ]
@@ -284,11 +271,12 @@ class: transition-slide
 ]
 
 ---
-class: transition-slide, middle
-
-```{r out.width = "50%"}
-knitr::include_graphics(here::here("images", "erindataviz_screenshot.png"))
-```
+background-image: url("images/erindataviz_screenshot.png")
+background-position: middle
+background-size: contain
+class: transition-slide, middle, center
+--
+### "Reduce redundancy, add clarity!"
 
 ---
 class: transition-slide
@@ -315,37 +303,49 @@ class: transition-slide
 **Create a table or standard chart as back up**<br>
 ]
 ]
+---
+class: inverse, middle, center
+
+## Let's implement!
+--
+
+### But first....
 
 ---
-class: transition-slide 
+class: inverse, middle, center
 
-.left-column[
-.my-bluegreen[
-### Deadline is tomorrow
-]
-.my-yellow[
-#### Standard charts or go-to charts
-]
-.my-steelgrey[
-#### Non-default colors
-#### Modify legend and axis
-#### Titles, subtitles, and caption
-]
+## Let's talk about tables
+<hr>
+--
+
+### Tables are underrated
+--
+
+### Great way to show the individual values
+--
+
+### Easy to make, if data is already wrangled
+
+---
+class: transition-slide
+
+.pull-left[
+<br>
+### TidyTuesday Dataset: Urban Institute and U.S. Census
 ]
 
-.right-column[
+.pull-right[
+<br><br>
 ```{r}
-women_research %>% 
-  mutate(change = glue::glue("+{`2011-2015` - `1996-2000`}")) %>%
-  arrange(`1996-2000`) %>%
-  rename(Country = country,
-         Change = change) %>%
-  kable(align = "lrrc", 
-        caption = "Change in Published Women Researchers") %>%
-  #kable_classic_2(full_width = F) %>%
+student_debt %>%
+  pivot_wider(names_from = race, values_from = loan_debt_pct) %>%
+  arrange(year) %>%
+  rename(Year = year) %>%
+  kable(align = "lrrr", 
+        caption = "Racial Disparities in Avg. Family Student Loan Debt") %>%
+  kable_classic_2(full_width = T) %>%
   add_header_above(c(" " = 1, 
-                     "% Published of Total" = 2, 
-                     " " = 1))
+                     "% of families with debt" = 3))
 ```
 ]
 
@@ -353,8 +353,14 @@ women_research %>%
 class: transition-slide
 
 ```{r, include = FALSE}
-women_research_sorted = women_research %>%
-  mutate(country = forcats::fct_reorder(country, -`1996-2000`))
+student_debt_annotation = tibble(
+  race = c("Black", "White"),
+  year = c(2013, 2013),
+  loan_debt_pct = c(41.2, 28.5),
+  label = c("By 2013, over 40% of\nU.S. Black families\nhad student loan debt",
+            "In comparison, by 2013\n28.5% of U.S.white families\nhad student loan debt")
+)
+
 ```
 
 .left-column[
@@ -365,7 +371,7 @@ women_research_sorted = women_research %>%
 #### Standard charts or go-to charts
 ]
 .my-steelgrey[
-#### Non-default colors
+#### Non-default aesthetics (colors, text, etc)
 #### Modify legend and axis
 #### Titles, subtitles, and caption
 ]
@@ -373,21 +379,89 @@ women_research_sorted = women_research %>%
 
 .right-column[
 ```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`)) +
-  geom_point(aes(y = country, x = `1996-2000`,
-                 color = "1996-2000")) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015")) +
-  scale_x_continuous(limits = c(0, 100),
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.grid = element_blank()
+  )
+```
+]
+
+---
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+]
+.my-yellow[
+#### Non-default aesthetics (colors, text, etc)
+]
+.my-steelgrey[
+#### Modify legend and axis
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  labs(x = NULL, y = NULL) +
+  facet_wrap(~race) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.grid = element_blank(),
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+]
+.my-yellow[
+#### Non-default aesthetics (colors, text, etc)
+]
+.my-steelgrey[
+#### Modify legend and axis
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  labs(x = NULL, y = NULL,
+       fill = NULL) +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
+                     labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
                      expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
   theme(
     text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
     panel.grid = element_blank(),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_line(color = "black")
+    panel.background = element_rect(fill = "#d2d8dd"),
+    legend.text = element_text(size = 15, 
+                               family = "Open Sans")
   )
 ```
 ]
@@ -401,219 +475,167 @@ class: transition-slide
 ]
 .my-steelgrey[
 #### Standard charts or go-to charts
+#### Non-default aesthetics (colors, text, etc)
 ]
 .my-yellow[
-#### Non-default colors
+#### Modify legend and axis
 ]
 .my-steelgrey[
-#### Modify legend and axis
 #### Titles, subtitles, and caption
 ]
 ]
 
 .right-column[
 ```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-               size = 2,
-               color = "#b6b8c1") +
-  geom_point(aes(y = country, x = `1996-2000`, 
-                 color = "1996-2000"),
-             shape = 21,
-             fill = "white",
-             size = 4) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015"),
-             shape = 21,
-             fill = "white",
-             size = 4) +
-  scale_color_manual(values = c("#005b87", "#a52a1c")) +
-  scale_x_continuous(limits = c(0, 100),
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  labs(x = NULL, y = NULL,
+       fill = NULL) +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
+                     labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
                      expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
   theme(
     text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
     panel.grid = element_blank(),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_line(color = "black")
-  )
-```
-]
-
----
-class: transition-slide
-
-.left-column[
-.my-bluegreen[
-### Deadline is tomorrow
-]
-.my-steelgrey[
-#### Standard charts or go-to charts
-#### Non-default colors
-]
-.my-yellow[
-#### Modify legend and axis
-]
-.my-steelgrey[
-#### Titles, subtitles, and caption
-]
-]
-
-.right-column[
-```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-              size = 2,
-               color = "#b6b8c1") +
-  geom_point(aes(y = country, x = `1996-2000`, 
-                 color = "1996-2000"),
-             shape = 21,
-             fill = "white",
-             size = 4) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015"),
-             shape = 21,
-             fill = "white",
-             size = 4) +
-  labs(color = NULL, y = NULL, x = NULL) +
-  scale_color_manual(values = c("#005b87", "#a52a1c")) +
-  scale_x_continuous(limits = c(0, 100),
-                     expand = c(0.005, 2), 
-                     labels = function(x) paste0(x, "%")) +
-  theme(
-    text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
-    panel.grid = element_blank(),
-    axis.text = element_text(size = 15),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_line(color = "black"),
-    legend.position = "top",
-    legend.key = element_blank(),
-    legend.text = element_text(size = 15),
-    legend.justification = 0,
-    legend.margin = margin(1, 1, 1, 1)
-  )
-```
-]
-
----
-class: transition-slide
-
-.left-column[
-.my-bluegreen[
-### Deadline is tomorrow
-]
-.my-steelgrey[
-#### Standard charts or go-to charts
-#### Non-default colors
-#### Modify legend and axis
-]
-.my-yellow[
-#### Titles, subtitles, and caption
-]
-]
-
-.right-column[
-```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-              size = 2,
-               color = "#b6b8c1") +
-  geom_point(aes(y = country, x = `1996-2000`, 
-                 color = "1996-2000"),
-             shape = 21,
-             fill = "white",
-             size = 4) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015"),
-             shape = 21,
-             fill = "white",
-             size = 4) +
-  labs(color = NULL, y = NULL, x = NULL,
-       title = "Most countries researched have reached 40 - 60% female publication gender parity goal",
-       subtitle = "Percentage of women among total published researchers",
-       caption = "Gender in the Global Research Landscape by Elsevier") +
-  scale_color_manual(values = c("#005b87", "#a52a1c")) +
-  scale_x_continuous(limits = c(0, 100),
-                     expand = c(0.005, 2), 
-                     labels = function(x) paste0(x, "%")) +
-  theme(
-    text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
-    panel.grid = element_blank(),
-    axis.text = element_text(size = 15),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_line(color = "black"),
-    legend.position = "top",
-    legend.key = element_blank(),
-    legend.text = element_text(size = 15),
-    legend.justification = 0,
-    legend.margin = margin(1, 1, 1, 1)
-  )
-```
-]
-
----
-class: transition-slide
-
-.left-column[
-.my-bluegreen[
-### Deadline is tomorrow
-]
-.my-steelgrey[
-#### Standard charts or go-to charts
-#### Non-default colors
-#### Modify legend and axis
-]
-.my-yellow[
-#### Titles, subtitles, and caption
-]
-]
-
-.right-column[
-```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-              size = 2,
-               color = "#b6b8c1") +
-  geom_point(aes(y = country, x = `1996-2000`, 
-                 color = "1996-2000"),
-             shape = 21,
-             fill = "white",
-             size = 4) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015"),
-             shape = 21,
-             fill = "white",
-             size = 4) +
-  labs(color = NULL, y = NULL, x = NULL,
-       title = "Most countries researched have reached 40 - 60% \nfemale publication gender parity goal",
-       subtitle = "Percentage of women among total published researchers",
-       caption = "Gender in the Global Research Landscape by Elsevier") +
-  scale_color_manual(values = c("#005b87", "#a52a1c")) +
-  scale_x_continuous(limits = c(0, 100),
-                     expand = c(0.005, 2), 
-                     labels = function(x) paste0(x, "%")) +
-  theme(
-    text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
-    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
     plot.title = element_text(size = 20, 
-                              margin = margin(b = 5)),
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
     plot.subtitle = element_text(size = 15, 
-                                 margin = margin(b = 10)),
-    axis.text = element_text(size = 15),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_line(color = "black"),
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
     legend.position = "top",
-    legend.key = element_blank(),
-    legend.text = element_text(size = 15),
     legend.justification = 0,
-    legend.margin = margin(2, 1, 50, 1)
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15, 
+                               family = "Open Sans"),
+    strip.text = element_blank(),
+    strip.background = element_blank()
+  )
+```
+]
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Deadline is tomorrow
+]
+.my-steelgrey[
+#### Standard charts or go-to charts
+#### Non-default aesthetics (colors, text, etc)
+#### Modify legend and axis
+]
+.my-yellow[
+#### Titles, subtitles, and caption
+]
+]
+
+.right-column[
+```{r fig.width=11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  labs(x = NULL, y = NULL,
+       fill = NULL,
+       title = "Racial Disparities Persist Among U.S. Student Loan Debt Holders",
+       subtitle =  "Share of families with student loan debt, ages 25-55 by race",
+       caption = "Urban Institute and U.S. Census, prepared by TidyTuesday") +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
+                     labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
+                     expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
+    legend.position = "top",
+    legend.justification = 0,
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15, 
+                               family = "Open Sans"),
+    strip.text = element_blank(),
+    strip.background = element_blank()
+  )
+```
+]
+
+---
+class: transition-slide
+
+.pull-left[
+### Baseline
+
+```{r fig.width=11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    panel.grid = element_blank()
+  )
+```
+]
+
+.pull-right[
+### Deadline is tomorrow
+```{r fig.width=11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  labs(x = NULL, y = NULL,
+       fill = NULL,
+       title = "Racial Disparities Persist Among U.S. Student Loan Debt Holders",
+       subtitle =  "Share of families with student loan debt, ages 25-55 by race",
+       caption = "Urban Institute and U.S. Census, prepared by TidyTuesday") +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
+                     labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
+                     expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
+    legend.position = "top",
+    legend.justification = 0,
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15, 
+                               family = "Open Sans"),
+    strip.text = element_blank(),
+    strip.background = element_blank()
   )
 ```
 ]
@@ -636,59 +658,62 @@ class: transition-slide
 
 .right-column[
 ```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  # gender parity lines
-  geom_vline(xintercept = 40,
-             linetype = "dashed") +
-  geom_vline(xintercept = 60,
-             linetype = "dashed") +
-  # trick to make sure axis work
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-               size = 0) +
-  geom_rect(aes(xmin = 40, xmax = 60,
-                ymin = 0, ymax = Inf),
-            fill = "#dddddd",
-            color = NA,
-            alpha = 0.5) +
- geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-              size = 2,
-               color = "#b6b8c1") +
-  geom_point(aes(y = country, x = `1996-2000`, 
-                 color = "1996-2000"),
-             shape = 21,
-             fill = "white",
-             size = 4) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015"),
-             shape = 21,
-             fill = "white",
-             size = 4) +
-  labs(color = NULL, y = NULL, x = NULL,
-       title = "Most countries researched have reached 40 - 60% \nfemale publication gender parity goal",
-       subtitle = "Percentage of women among total published researchers",
-       caption = "Gender in the Global Research Landscape by Elsevier") +
-  scale_color_manual(values = c("#005b87", "#a52a1c")) +
-  scale_x_continuous(limits = c(0, 100),
-                     expand = c(0.005, 2), 
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  # Annotations - Black
+  geom_segment(data = student_debt_annotation,
+               aes(x = year, xend = 2010,
+                   y = loan_debt_pct, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_segment(data = student_debt_annotation,
+               aes(x = 1998, xend = 2010,
+                   y = loan_debt_pct + 10, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_point(data = student_debt_annotation,
+             aes(x = year, 
+                 y = loan_debt_pct),
+             size = 2.5,
+             shape = 16,
+             color = "black") +
+  labs(x = NULL, y = NULL,
+       fill = NULL,
+       title = "Racial Disparities Persist Among U.S. Student Loan Debt Holders",
+       subtitle =  "Share of families with student loan debt, ages 25-55 by race",
+       caption = "Urban Institute and U.S. Census, prepared by TidyTuesday") +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
                      labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
+                     expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
   theme(
     text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
     panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
     plot.title = element_text(size = 20, 
-                              margin = margin(b = 5)),
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
     plot.subtitle = element_text(size = 15, 
-                                 margin = margin(b = 10)),
-    axis.text = element_text(size = 15),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_line(color = "black"),
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
     legend.position = "top",
-    legend.key = element_blank(),
-    legend.text = element_text(size = 15),
     legend.justification = 0,
-    legend.margin = margin(2, 1, 50, 1)
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15, 
+                               family = "Open Sans"),
+    strip.text = element_blank(),
+    strip.background = element_blank()
   )
 ```
 ]
@@ -712,65 +737,72 @@ class: transition-slide
 ]
 
 .right-column[
-```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  # gender parity lines
-  geom_vline(xintercept = 40,
-             linetype = "dashed") +
-  geom_vline(xintercept = 60,
-             linetype = "dashed") +
-  # trick to make sure axis work
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-               size = 0) +
-  geom_rect(aes(xmin = 40, xmax = 60,
-                ymin = 0, ymax = Inf),
-            fill = "#dddddd",
-            color = NA,
-            alpha = 0.5) +
-  # data
- geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-              size = 2,
-               color = "#b6b8c1") +
-  geom_point(aes(y = country, x = `1996-2000`, 
-                 color = "1996-2000"),
-             shape = 21,
-             fill = "white",
-             size = 4) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015"),
-             shape = 21,
-             fill = "white",
-             size = 4) +
-  # Labels
-  geom_text(aes(x = 50, y = 8,
-                label = "Gender balance occurs \nwhen women make up \n40 - 60% of any group"),
-            size = 4) +
-  labs(color = NULL, y = NULL, x = NULL,
-       title = "Major improvements experienced in gender publication parity",
-       subtitle = "Percentage of women among total published researchers",
-       caption = "Gender in the Global Research Landscape by Elsevier") +
-  scale_color_manual(values = c("#005b87", "#a52a1c")) +
-  scale_x_continuous(limits = c(0, 100),
-                     expand = c(0.005, 2), 
+```{r, fig.width = 11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  # Annotations - Black
+  geom_segment(data = student_debt_annotation,
+               aes(x = year, xend = 2010,
+                   y = loan_debt_pct, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_segment(data = student_debt_annotation,
+               aes(x = 1998, xend = 2010,
+                   y = loan_debt_pct + 10, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_point(data = student_debt_annotation,
+             aes(x = year, 
+                 y = loan_debt_pct),
+             size = 2.5,
+             shape = 16,
+             color = "black") +
+  geom_text(data = student_debt_annotation,
+            aes(x = 1998, 
+                y = loan_debt_pct + 14, 
+                label = label),
+            family = "Open Sans",
+            fontface = "bold",
+            size = 3.5,
+            lineheight = 0.75,
+            hjust = 0) +
+  labs(x = NULL, y = NULL,
+       fill = NULL,
+       title = "Racial Disparities Persist Among U.S. Student Loan Debt Holders",
+       subtitle =  "Share of families with student loan debt, ages 25-55 by race",
+       caption = "Urban Institute and U.S. Census, prepared by TidyTuesday") +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
                      labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
+                     expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
   theme(
     text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
     panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
     plot.title = element_text(size = 20, 
-                              margin = margin(b = 5)),
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
     plot.subtitle = element_text(size = 15, 
-                                 margin = margin(b = 10)),
-    axis.text = element_text(size = 15),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_line(color = "black"),
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
     legend.position = "top",
-    legend.key = element_blank(),
-    legend.text = element_text(size = 15),
     legend.justification = 0,
-    legend.margin = margin(2, 1, 50, 1)
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15, 
+                               family = "Open Sans"),
+    strip.text = element_blank(),
+    strip.background = element_blank()
   )
 ```
 ]
@@ -792,114 +824,195 @@ class: transition-slide
 ]
 
 .right-column[
-```{r fig.width=11}
-ggplot(data = women_research_sorted) +
-  # gender parity lines
-  geom_vline(xintercept = 40,
-             linetype = "dashed") +
-  geom_vline(xintercept = 60,
-             linetype = "dashed") +
-  # trick to make sure axis work
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-               size = 0) +
-  geom_rect(aes(xmin = 40, xmax = 60,
-                ymin = 0, ymax = Inf),
-            fill = "#dddddd",
-            color = NA,
-            alpha = 0.5) +
-  geom_segment(aes(y = country, yend = country, 
-                    x = `1996-2000`, xend = `2011-2015`),
-              size = 2,
-               color = "#b6b8c1") +
-  geom_point(aes(y = country, x = `1996-2000`, 
-                 color = "1996-2000"),
-             shape = 21,
-             fill = "white",
-             size = 4) + 
-  geom_point(aes(y = country, x = `2011-2015`,
-                 color = "2011-2015"),
-             shape = 21,
-             fill = "white",
-             size = 4) +
-  # Labels
-  geom_text(aes(x = 50, y = 8,
-                label = "Gender balance occurs \nwhen women make up \n40 - 60% of any group"),
-            size = 4) +
-  geom_text(aes(x = `1996-2000` - 2, 
-                y = country, 
-                label = country),
-            hjust = 1,
-            size = 5) +
-  labs(color = NULL, y = NULL, x = NULL,
-       title = "Major improvements experienced in gender publication parity",
-       subtitle = "Percentage of women among total published researchers",
-       caption = "Gender in the Global Research Landscape by Elsevier") +
-  scale_color_manual(values = c("#005b87", "#a52a1c")) +
-  scale_x_continuous(limits = c(0, 100),
-                     expand = c(0.005, 2), 
+```{r, fig.width = 11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  # Label of race / alternative legend
+  geom_text(aes(x = 2010, y = 7, label = stringr::str_to_upper(race)),
+            fontface = "bold",
+            family = "Open Sans",
+            size = 6,
+            color = "white") +
+  # Annotations - Black
+  geom_segment(data = student_debt_annotation,
+               aes(x = year, xend = 2010,
+                   y = loan_debt_pct, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_segment(data = student_debt_annotation,
+               aes(x = 1998, xend = 2010,
+                   y = loan_debt_pct + 10, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_point(data = student_debt_annotation,
+             aes(x = year, 
+                 y = loan_debt_pct),
+             size = 2.5,
+             shape = 16,
+             color = "black") +
+  geom_text(data = student_debt_annotation,
+            aes(x = 1998, 
+                y = loan_debt_pct + 14, 
+                label = label),
+            family = "Open Sans",
+            fontface = "bold",
+            size = 3.5,
+            lineheight = 0.75,
+            hjust = 0) +
+  labs(x = NULL, y = NULL,
+       title = "Racial Disparities Persist Among U.S. Student Loan Debt Holders",
+       subtitle =  "Share of families with student loan debt, ages 25-55 by race",
+       caption = "Urban Institute and U.S. Census, prepared by TidyTuesday") +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
                      labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
+                     expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
   theme(
     text = element_text(family = "Open Sans"),
-    panel.background = element_blank(),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
     panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
     plot.title = element_text(size = 20, 
-                              margin = margin(b = 5)),
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
     plot.subtitle = element_text(size = 15, 
-                                 margin = margin(b = 10)),
-    axis.ticks.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.text = element_text(size = 15),
-    axis.line.x = element_line(color = "black"),
-    axis.line.y = element_blank(),
-    legend.position = "top",
-    legend.key = element_blank(),
-    legend.text = element_text(size = 15),
-    legend.justification = 0,
-    legend.margin = margin(2, 1, 50, 1)
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
+    legend.position = "none",
+    strip.text = element_blank(),
+    strip.background = element_blank()
   )
 ```
 ]
 
----
-class: transition-slide
-
-.left-column[
-.my-bluegreen[
-### Tons of free time
-]
-
-.my-yellow[
-#### Nonstandard charts
-#### Custom legends
-#### Multiple annotations
-#### Create standard chart as backup
-]
-]
-
-```{r out.width='55%'}
-knitr::include_graphics(path = here::here("images", "artsy_fartsy_plot3.png"))
-```
 
 ---
 class: transition-slide
 
-.left-column[
-.my-bluegreen[
-### Tons of free time
-]
-
-.my-yellow[
-#### Nonstandard charts
-#### Custom legends
-#### Multiple annotations
-#### Create standard chart as backup
-]
-]
-
-```{r out.width='55%'}
-knitr::include_graphics(path = here::here("images", "artsy_fartsy_plot2.png"))
+.pull-left[
+### Deadline is tomorrow
+```{r fig.width=11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  labs(x = NULL, y = NULL,
+       fill = NULL,
+       title = "Racial Disparities Persist Among U.S. Student Loan Debt Holders",
+       subtitle =  "Share of families with student loan debt, ages 25-55 by race",
+       caption = "Urban Institute and U.S. Census, prepared by TidyTuesday") +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
+                     labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
+                     expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
+    legend.position = "top",
+    legend.justification = 0,
+    legend.key = element_blank(),
+    legend.text = element_text(size = 15, 
+                               family = "Open Sans"),
+    strip.text = element_blank(),
+    strip.background = element_blank()
+  )
 ```
+]
+
+.pull-right[
+### Moderate amount
+```{r, fig.width = 11}
+ggplot(data = student_debt) +
+  # Data
+  geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
+  # Label of race / alternative legend
+  geom_text(aes(x = 2010, y = 7, label = stringr::str_to_upper(race)),
+            fontface = "bold",
+            family = "Open Sans",
+            size = 6,
+            color = "white") +
+  # Annotations - Black
+  geom_segment(data = student_debt_annotation,
+               aes(x = year, xend = 2010,
+                   y = loan_debt_pct, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_segment(data = student_debt_annotation,
+               aes(x = 1998, xend = 2010,
+                   y = loan_debt_pct + 10, 
+                   yend = loan_debt_pct + 10),
+               lineend = "round",
+               size = .75,
+               color = "black") +
+  geom_point(data = student_debt_annotation,
+             aes(x = year, 
+                 y = loan_debt_pct),
+             size = 2.5,
+             shape = 16,
+             color = "black") +
+  geom_text(data = student_debt_annotation,
+            aes(x = 1998, 
+                y = loan_debt_pct + 14, 
+                label = label),
+            family = "Open Sans",
+            fontface = "bold",
+            size = 3.5,
+            lineheight = 0.75,
+            hjust = 0) +
+  labs(x = NULL, y = NULL,
+       title = "Racial Disparities Persist Among U.S. Student Loan Debt Holders",
+       subtitle =  "Share of families with student loan debt, ages 25-55 by race",
+       caption = "Urban Institute and U.S. Census, prepared by TidyTuesday") +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = c(0, 0.005), 
+                     labels = function(x) paste0(x, "%")) +
+  scale_x_continuous(limits = c(1989, 2016),
+                     expand = c(0.005, 0.005)) +
+  scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
+  facet_wrap(~race) +
+  theme(
+    text = element_text(family = "Open Sans"),
+    axis.text = element_text(size = 10, 
+                             color = "black",
+                             family = "Open Sans"),
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "#d2d8dd"),
+    plot.title = element_text(size = 20, 
+                              margin = margin(b = 5),
+                              family = "Open Sans"),
+    plot.subtitle = element_text(size = 15, 
+                                 margin = margin(b = 10),
+                                 family = "Open Sans"),
+    legend.position = "none",
+    strip.text = element_blank(),
+    strip.background = element_blank()
+  )
+```
+]
 
 ---
 
