@@ -73,7 +73,7 @@ xaringanExtra::use_tachyons()
 
 ```{r include = FALSE, message = FALSE}
 student_debt = readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-02-09/student_debt.csv') %>%
-  #filter(race %in% c("White", "Black")) %>%
+  filter(race %in% c("White", "Black")) %>%
   select(-loan_debt) %>%
   mutate(loan_debt_pct = round(loan_debt_pct * 100, 1)) 
 
@@ -159,7 +159,7 @@ ggplot(data = fake_data) +
                arrow = arrow(length = unit(0.5, "cm")),
                size = 2) +
   geom_text(aes(x = 5, y = 1.5, 
-                label = "Time available in work day to perfect data visualization"),
+                label = "Time available in the work day to perfect your data visualization"),
             size = 9,
             fontface = "bold",
             lineheight = 1) +
@@ -280,7 +280,7 @@ class: transition-slide, middle, center
 
 ---
 class: transition-slide
-## .my-green[Time Available in Workday:] .my-yellow["Wow look at all of my free time"]
+## .my-green[Time Available in Workday:] .my-yellow["An abundance of time"]
 
 .pull-left[
 .center[
@@ -345,7 +345,7 @@ student_debt %>%
         caption = "Racial Disparities in Avg. Family Student Loan Debt") %>%
   kable_classic_2(full_width = T) %>%
   add_header_above(c(" " = 1, 
-                     "% of families with debt" = 3))
+                     "% of families with debt" = 2))
 ```
 ]
 
@@ -444,13 +444,7 @@ class: transition-slide
 ggplot(data = student_debt) +
   # Data
   geom_area(aes(x = year, y = loan_debt_pct, fill = race)) +
-  labs(x = NULL, y = NULL,
-       fill = NULL) +
-  scale_y_continuous(limits = c(0, 100),
-                     expand = c(0, 0.005), 
-                     labels = function(x) paste0(x, "%")) +
-  scale_x_continuous(limits = c(1989, 2016),
-                     expand = c(0.005, 0.005)) +
+  labs(x = NULL, y = NULL) +
   scale_fill_manual(values = c("#1e3d59", "#5f7044", "#ecb920")) +
   facet_wrap(~race) +
   theme(
@@ -670,7 +664,7 @@ ggplot(data = student_debt) +
                size = .75,
                color = "black") +
   geom_segment(data = student_debt_annotation,
-               aes(x = 1998, xend = 2010,
+               aes(x = 2002, xend = 2010,
                    y = loan_debt_pct + 10, 
                    yend = loan_debt_pct + 10),
                lineend = "round",
@@ -750,7 +744,7 @@ ggplot(data = student_debt) +
                size = .75,
                color = "black") +
   geom_segment(data = student_debt_annotation,
-               aes(x = 1998, xend = 2010,
+               aes(x = 2002, xend = 2010,
                    y = loan_debt_pct + 10, 
                    yend = loan_debt_pct + 10),
                lineend = "round",
@@ -763,7 +757,7 @@ ggplot(data = student_debt) +
              shape = 16,
              color = "black") +
   geom_text(data = student_debt_annotation,
-            aes(x = 1998, 
+            aes(x = 2002, 
                 y = loan_debt_pct + 14, 
                 label = label),
             family = "Open Sans",
@@ -843,7 +837,7 @@ ggplot(data = student_debt) +
                size = .75,
                color = "black") +
   geom_segment(data = student_debt_annotation,
-               aes(x = 1998, xend = 2010,
+               aes(x = 2002, xend = 2010,
                    y = loan_debt_pct + 10, 
                    yend = loan_debt_pct + 10),
                lineend = "round",
@@ -856,7 +850,7 @@ ggplot(data = student_debt) +
              shape = 16,
              color = "black") +
   geom_text(data = student_debt_annotation,
-            aes(x = 1998, 
+            aes(x = 2002, 
                 y = loan_debt_pct + 14, 
                 label = label),
             family = "Open Sans",
@@ -962,7 +956,7 @@ ggplot(data = student_debt) +
                size = .75,
                color = "black") +
   geom_segment(data = student_debt_annotation,
-               aes(x = 1998, xend = 2010,
+               aes(x = 2002, xend = 2010,
                    y = loan_debt_pct + 10, 
                    yend = loan_debt_pct + 10),
                lineend = "round",
@@ -975,7 +969,7 @@ ggplot(data = student_debt) +
              shape = 16,
              color = "black") +
   geom_text(data = student_debt_annotation,
-            aes(x = 1998, 
+            aes(x = 2002, 
                 y = loan_debt_pct + 14, 
                 label = label),
             family = "Open Sans",
@@ -1013,6 +1007,12 @@ ggplot(data = student_debt) +
   )
 ```
 ]
+---
+class: transition-slide
+
+```{r out.width = "50%"}
+knitr::include_graphics(here::here("images", "salt_bae_meme.jpeg"))
+```
 
 ---
 
