@@ -31,6 +31,34 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.align = 'center')
 ```
 
+```{r metathis, include = FALSE}
+library(metathis)
+
+meta() %>%
+  meta_name("github-repo" = "Ijeamakaanyene/spice_up_your_charts") %>%
+  meta_social(
+    title = "Spice up your standard charts",
+    description = paste0(
+      "How to create visually interesting standard charts in the most time effective manner",
+      "Presented Toronto Data Workshop, August 6th 2021"),
+    url = "https://ijeamakaanyene.github.io/spice_up_your_charts/charts.html",
+    image = "https://raw.githubusercontent.com/Ijeamakaanyene/spice_up_your_charts/main/slides_cover_image.png",
+    image_alt = paste0(
+      "Title slide of spice up your standard charts",
+      "Authored by Ijeamaka Anyene",
+      "Presented at Toronto Data Workshop August 6th, 2021",
+      "to the right of this information is a grid of white squares with some missing"),
+    og_type = "website",
+    og_author = "Ijeamaka Anyene",
+    twitter_card_type = "summary_large_image",
+    twitter_creator = "@ijeamaka_a",
+    twitter_site = "@ijeamaka_a")
+```
+
+```{r, xaringanExtra-share-again, echo=FALSE}
+xaringanExtra::use_share_again()
+```
+
 ```{r message = FALSE, warning = FALSE}
 library(dplyr)
 library(ggplot2)
