@@ -41,7 +41,7 @@ meta() %>%
     description = paste0(
       "How to create visually interesting standard charts in the most time effective manner",
       "Presented Toronto Data Workshop, August 6th 2021"),
-    url = "https://ijeamakaanyene.github.io/spice_up_your_charts/charts.html",
+    url = "https://ijeamakaanyene.github.io/spice_up_your_charts/index.html",
     image = "https://raw.githubusercontent.com/Ijeamakaanyene/spice_up_your_charts/main/slides_cover_image.png",
     image_alt = paste0(
       "Title slide of spice up your standard charts",
