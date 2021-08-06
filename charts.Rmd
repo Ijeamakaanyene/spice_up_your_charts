@@ -834,6 +834,46 @@ ggplot(data = women_research_sorted) +
 ]
 
 ---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Tons of free time
+]
+
+.my-yellow[
+#### Nonstandard charts
+#### Custom legends
+#### Multiple annotations
+#### Create standard chart as backup
+]
+]
+
+```{r out.width='55%'}
+knitr::include_graphics(path = here::here("images", "artsy_fartsy_plot3.png"))
+```
+
+---
+class: transition-slide
+
+.left-column[
+.my-bluegreen[
+### Tons of free time
+]
+
+.my-yellow[
+#### Nonstandard charts
+#### Custom legends
+#### Multiple annotations
+#### Create standard chart as backup
+]
+]
+
+```{r out.width='55%'}
+knitr::include_graphics(path = here::here("images", "artsy_fartsy_plot2.png"))
+```
+
+---
 
 background-image: url("images/toronto_data_09.png")
 background-position: top
